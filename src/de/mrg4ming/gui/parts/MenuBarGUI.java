@@ -23,6 +23,10 @@ public class MenuBarGUI extends JMenuBar {
         file_loadItem.addActionListener(file_loadAction);
         fileMenu.add(file_loadItem);
 
+        JMenuItem file_reloadItem = new JMenuItem("Reload");
+        file_reloadItem.addActionListener(file_reloadAction);
+        fileMenu.add(file_reloadItem);
+
 
         this.add(fileMenu);
     }
@@ -55,6 +59,14 @@ public class MenuBarGUI extends JMenuBar {
         @Override
         public void actionPerformed(ActionEvent e) {
             System.out.println("Saving...");
+        }
+    };
+
+    ActionListener file_reloadAction = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String _currentLoadedFilePath = FileManager.instance.getFilePath();
+            loadFile(_currentLoadedFilePath);
         }
     };
 

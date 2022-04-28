@@ -74,4 +74,7 @@ public class FileManager {
         }
     }
 
+    public String getFilePath() {
+        return filePath;
+    }
 }
