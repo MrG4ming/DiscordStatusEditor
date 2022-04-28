@@ -10,6 +10,8 @@ import java.util.Enumeration;
 
 public class Entry implements Comparable<Entry> {
 
+    public static final String ENTRY_NAME_PREFIX = "Entry ";
+
     public enum Status {
         INVISIBLE("invisible", "Invisible"),
         DND("dnd", "Do not disturb"),

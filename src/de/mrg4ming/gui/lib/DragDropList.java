@@ -22,6 +22,9 @@ import javax.swing.TransferHandler;
 public class DragDropList extends JList {
     public DefaultListModel model;
 
+    public int dropTargetIndex = 0;
+    public int currentIndex = 0;
+
     public DragDropList() {
         super(new DefaultListModel());
         this.model = (DefaultListModel) getModel();
@@ -62,6 +65,7 @@ class MyDragListener implements DragSourceListener, DragGestureListener {
     }
 
     public void dragEnter(DragSourceDragEvent dsde) {
+        list.setValueIsAdjusting(true);
     }
 
     public void dragExit(DragSourceEvent dse) {
@@ -71,7 +75,9 @@ class MyDragListener implements DragSourceListener, DragGestureListener {
     }
 
     public void dragDropEnd(DragSourceDropEvent dsde) {
+        list.setValueIsAdjusting(false);
         if (dsde.getDropSuccess()) {
+            MyListDropHandler.rearrangeList(list.currentIndex, list.dropTargetIndex, list);
             System.out.println("Succeeded");
         } else {
             System.out.println("Failed");
@@ -120,14 +126,21 @@ class MyListDropHandler extends TransferHandler {
 
         int selectedIndex = list.getSelectedIndex();
 
-        rearrangeList(selectedIndex, dropTargetIndex);
+        //doesn't work because it is called too early while the drop isn't finished
+        if(!list.getValueIsAdjusting()) {
+            rearrangeList(selectedIndex, dropTargetIndex, list);
+        }
+
+        //saving data for later rearrangement of the list
+        list.currentIndex = selectedIndex;
+        list.dropTargetIndex = dropTargetIndex;
 
         System.out.println(dropTargetIndex + " : ");
         System.out.println("inserted");
         return true;
     }
 
-    private void rearrangeList(int currentIndex, int targetIndex) {
+    public static void rearrangeList(int currentIndex, int targetIndex, DragDropList list) {
         ArrayList<Object> _contents = new ArrayList<Object>();
         for(int i = 0; i < list.model.getSize(); i++) {
             _contents.add(list.getModel().getElementAt(i));
@@ -135,10 +148,13 @@ class MyListDropHandler extends TransferHandler {
 
         Object _item = _contents.get(currentIndex);
         _contents.remove(currentIndex);
+        if(targetIndex >= list.model.size()) {
+            targetIndex = list.model.size() - 1;
+        }
         _contents.add(targetIndex, _item);
 
 
-        list.model.removeAllElements();
+        list.model.clear();
         for(int i = 0; i < _contents.size(); i++) {
             list.model.add(i, _contents.get(i));
         }

@@ -1,6 +1,7 @@
 package de.mrg4ming.gui.parts;
 
 import de.mrg4ming.Main;
+import de.mrg4ming.control.Entry;
 import de.mrg4ming.gui.lib.DragDropList;
 
 import javax.swing.*;
@@ -30,8 +31,19 @@ public class EntryListGUI extends JPanel {
         _entryNamesList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                Main.mainWindow.entryEditorGUI.loadEntry(_entryNamesList.getSelectedIndex());
-                //System.out.println("Selecting entry: " + _entryNamesList.getSelectedIndex());
+                System.out.println(e.getValueIsAdjusting());
+                if(!e.getValueIsAdjusting()) {
+                    int selectedIndex = _entryNamesList.getSelectedIndex();
+                    if(selectedIndex >= 0) {
+                        if(selectedIndex > _entryNamesList.model.size()) {
+                            selectedIndex = _entryNamesList.model.size();
+                        }
+                        Main.mainWindow.entryEditorGUI.loadEntry(selectedIndex);
+
+                        System.out.println("Selecting entry: " + selectedIndex);
+                    }
+
+                }
             }
         });
 
@@ -67,7 +79,7 @@ public class EntryListGUI extends JPanel {
         ButtonGroup _buttonGroup = new ButtonGroup();
 
         for(int i = 0; i < entries.size(); i++) {
-            entryListModel.add(i, "Entry '" + i + "'");
+            entryListModel.add(i, Entry.ENTRY_NAME_PREFIX + i);
 
             JRadioButton _valueButton = new JRadioButton(entries.get(i));
             _buttonGroup.add(_valueButton);
