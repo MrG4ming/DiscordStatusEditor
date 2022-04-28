@@ -6,21 +6,26 @@ import de.mrg4ming.control.EntryManager;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Enumeration;
 
 public class EntryEditorGUI extends JPanel {
 
     JLabel positionLabel;
 
-    JTextField textField = new JTextField();
+    JTextArea textArea = new JTextArea();
     JPanel statusSwitchPanel = new JPanel();
     public ButtonGroup statusButtonGroup;
     JPanel clearTimePanel = new JPanel();
     public ButtonGroup clearTimeButtonGroup;
 
     public EntryEditorGUI() {
-        this.setLayout(new BorderLayout());
+        this.setLayout(new GridLayout(2, 1));
         this.setBorder(new TitledBorder("Entry editor"));
+
+        JPanel topHalf = new JPanel(new GridLayout(1, 2));
+        JPanel bottomHalf = new JPanel(new BorderLayout());
 
         statusButtonGroup = new ButtonGroup();
         clearTimeButtonGroup = new ButtonGroup();
@@ -66,24 +71,40 @@ public class EntryEditorGUI extends JPanel {
         clearTimeButtonGroup.add(timeNever);
         ///endregion
 
-        this.add(statusSwitchPanel, BorderLayout.NORTH);
-        this.add(clearTimePanel, BorderLayout.NORTH);
+
+        JPanel switchPanels = new JPanel(new GridLayout(1, 2));
+        switchPanels.add(statusSwitchPanel);
+        switchPanels.add(clearTimePanel);
+
+        JPanel textInputPanel = new JPanel(new BorderLayout());
+        textInputPanel.setBorder(new TitledBorder("Text"));
+        textArea.setToolTipText("Status text");
+        textArea.setLineWrap(true);
+        textArea.addKeyListener(textInputKeyListener);
+        textInputPanel.add(textArea);
 
         positionLabel = new JLabel("Position: ");
-        this.add(positionLabel, BorderLayout.WEST);
+        JPanel entryInfoPanel = new JPanel(new BorderLayout());
+        entryInfoPanel.setBorder(new TitledBorder("Entry info"));
+        entryInfoPanel.add(positionLabel, BorderLayout.NORTH);
 
-        textField.setToolTipText("Status text");
-        textField.setBorder(new TitledBorder("Status text"));
+        JButton applyButton = new JButton("Apply");
+        entryInfoPanel.add(applyButton, BorderLayout.SOUTH);
 
-        this.add(textField, BorderLayout.WEST);
+        topHalf.add(switchPanels);
+        topHalf.add(textInputPanel);
+        bottomHalf.add(entryInfoPanel);
+
+        this.add(topHalf);
+        this.add(bottomHalf);
     }
 
     public void loadEntry(int index) {
-        if(index < EntryManager.entries.size()) return;
+        if(index > EntryManager.entries.size()) return;
 
         updateEntryPositionText(EntryManager.entries.get(index).getPosition());
 
-        textField.setText(EntryManager.entries.get(index).getText());
+        textArea.setText(EntryManager.entries.get(index).getText());
 
         //Status
         for (Enumeration<AbstractButton> buttons = statusButtonGroup.getElements(); buttons.hasMoreElements();) {
@@ -115,4 +136,50 @@ public class EntryEditorGUI extends JPanel {
         positionLabel.setText("Position: " + newPosition);
     }
 
+    KeyListener textInputKeyListener = new KeyListener() {
+        @Override
+        public void keyTyped(KeyEvent e) {
+            if(textArea.getText().length() >= Entry.MAX_CHAR_COUNT)  {
+                textArea.setText(textArea.getText().substring(0, textArea.getText().length() - Math.max(0, textArea.getText().length() - (Entry.MAX_CHAR_COUNT - 1))));
+            }
+        }
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+
+        }
+    };
+
+    public String getText() {
+        return textArea.getText();
+    }
+
+    public Entry.Status getSelectedStatus() {
+        for (Enumeration<AbstractButton> buttons = statusButtonGroup.getElements(); buttons.hasMoreElements();) {
+            AbstractButton button = buttons.nextElement();
+            if(button.isSelected()) {
+                if(Entry.Status.getStatusByString(button.getText()) != null) {
+                    return Entry.Status.getStatusByString(button.getText());
+                }
+            }
+        }
+        return Entry.Status.INVISIBLE;
+    }
+
+    public Entry.ClearTime getSelectedClearTime() {
+        for (Enumeration<AbstractButton> buttons = clearTimeButtonGroup.getElements(); buttons.hasMoreElements();) {
+            AbstractButton button = buttons.nextElement();
+            if(button.isSelected()) {
+                if(Entry.ClearTime.getClearTimeByString(button.getText()) != null) {
+                    return Entry.ClearTime.getClearTimeByString(button.getText());
+                }
+            }
+        }
+        return Entry.ClearTime.TODAY;
+    }
 }

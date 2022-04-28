@@ -12,6 +12,7 @@ public class Window extends JFrame {
     private int width = 1280, height = 720;
 
     public EntryListGUI entryListGUI;
+    public EntryEditorGUI entryEditorGUI;
 
     public Window(String title) {
         super(title);
@@ -29,10 +30,11 @@ public class Window extends JFrame {
         mainPanel.setLayout(new GridLayout(1, 2));
 
         entryListGUI = new EntryListGUI();
+        entryEditorGUI = new EntryEditorGUI();
 
         JSplitPane splitPane = new JSplitPane();
         splitPane.setLeftComponent(entryListGUI);
-        splitPane.setRightComponent(new EntryEditorGUI());
+        splitPane.setRightComponent(entryEditorGUI);
 
         mainPanel.add(splitPane);
 

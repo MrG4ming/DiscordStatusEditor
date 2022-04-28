@@ -1,9 +1,12 @@
 package de.mrg4ming.gui.parts;
 
+import de.mrg4ming.Main;
 import de.mrg4ming.gui.lib.DragDropList;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,7 +15,7 @@ import java.util.List;
 public class EntryListGUI extends JPanel {
 
     ArrayList<String> entries;
-    DefaultListModel entryListModel;
+    public DefaultListModel entryListModel;
 
     public EntryListGUI() {
         super();
@@ -24,6 +27,14 @@ public class EntryListGUI extends JPanel {
         entryListModel = new DefaultListModel();
 
         DragDropList _entryNamesList = new DragDropList(entryListModel);
+        _entryNamesList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                Main.mainWindow.entryEditorGUI.loadEntry(_entryNamesList.getSelectedIndex());
+                //System.out.println("Selecting entry: " + _entryNamesList.getSelectedIndex());
+            }
+        });
+
 
         JScrollPane _scrollPane = new JScrollPane(_entryNamesList);
 

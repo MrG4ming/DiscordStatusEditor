@@ -1,8 +1,15 @@
 package de.mrg4ming.control;
 
+import de.mrg4ming.Main;
+import de.mrg4ming.control.filecontrol.FileManager;
 import org.json.simple.JSONObject;
 
-public class Entry {
+import java.io.File;
+import java.util.Arrays;
+import java.util.Enumeration;
+
+public class Entry implements Comparable<Entry> {
+
     public enum Status {
         INVISIBLE("invisible", "Invisible"),
         DND("dnd", "Do not disturb"),
@@ -76,8 +83,18 @@ public class Entry {
         obj.put("pos", position);
         obj.put("status", status.value);
         if(clearTime != ClearTime.NEVER) obj.put("clearAfter", clearTime.value);
-        obj.put("text", text.substring(0, text.length() - Math.max(0, text.length() - MAX_CHAR_COUNT)));
+        obj.put("text", text.substring(0, text.length() - Math.max(0, text.length() - (Entry.MAX_CHAR_COUNT - 1))));
         return obj;
+    }
+
+    public void saveEntry() {
+        this.text = Main.mainWindow.entryEditorGUI.getText();
+        this.status = Main.mainWindow.entryEditorGUI.getSelectedStatus();
+        this.clearTime = Main.mainWindow.entryEditorGUI.getSelectedClearTime();
+
+        EntryManager.instance.updateEntrySort();
+
+        FileManager.instance.save();
     }
 
     public int getPosition() {
@@ -106,5 +123,10 @@ public class Entry {
                 ", status=" + status +
                 ", clearTime=" + clearTime +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Entry o) {
+        return this.getPosition() - o.getPosition();
     }
 }
