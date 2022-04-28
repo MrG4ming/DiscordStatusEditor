@@ -44,9 +44,7 @@ public class MenuBarGUI extends JMenuBar {
             if(chooser.showDialog(Main.mainWindow, "Open") == JFileChooser.OPEN_DIALOG) {
                 //EntryManager.instance.load(new File(chooser.getSelectedFile().getPath()));
 
-                //TODO: Add save popup if a file is already loaded but not saved
-                if(FileManager.instance != null) FileManager.instance = null;
-                new FileManager(chooser.getSelectedFile().getPath());
+                loadFile(chooser.getSelectedFile().getPath());
 
                 System.out.println("Loading: " + chooser.getSelectedFile().getPath());
             }
@@ -59,4 +57,10 @@ public class MenuBarGUI extends JMenuBar {
             System.out.println("Saving...");
         }
     };
+
+    private void loadFile(String path) {
+        //TODO: Add save popup if a file is already loaded but not saved
+        if(FileManager.instance != null) FileManager.instance = null;
+        new FileManager(path);
+    }
 }
