@@ -52,13 +52,13 @@ public class FileManager {
                 int pos = Integer.parseInt(preset.get("pos").toString());
                 int id = pos;
 
-                Entry.Status status = Entry.Status.valueOf(preset.get("status").toString());
+                Entry.Status status = Entry.Status.getStatusByString(preset.get("status").toString());
                 String text = preset.get("text").toString();
 
                 Entry.ClearTime clearTime;
                 if(preset.get("clearAfter") == null) {
-                    clearTime = Entry.ClearTime.DONT;
-                } else clearTime = Entry.ClearTime.valueOf(preset.get("clearAfter").toString());
+                    clearTime = Entry.ClearTime.NEVER;
+                } else clearTime = Entry.ClearTime.getClearTimeByString(preset.get("clearAfter").toString());
 
                 Entry _entry = new Entry(id, pos, text, status, clearTime);
 

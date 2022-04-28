@@ -4,26 +4,48 @@ import org.json.simple.JSONObject;
 
 public class Entry {
     public enum Status {
-        INVISIBLE("invisible"),
-        DND("dnd"),
-        IDLE("idle"),
-        ONLINE("online");
+        INVISIBLE("invisible", "Invisible"),
+        DND("dnd", "Do not disturb"),
+        IDLE("idle", "Idle"),
+        ONLINE("online", "Online");
 
         private final String value;
-        Status(String value) {
+        private final String alias;
+        Status(String value, String alias) {
             this.value = value;
+            this.alias = alias;
+        }
+
+        public static Status getStatusByString(String s) {
+            for(Status status : Status.values()) {
+                if(status.value.equals(s) || status.alias.equals(s)) {
+                    return status;
+                }
+            }
+            return null;
         }
     }
     public enum ClearTime {
-        TODAY("TODAY"),
-        HOURS_4("14400000"),
-        HOURS_1("3600000"),
-        MINUTES_30("1800000"),
-        DONT("");
+        TODAY("TODAY", "Today"),
+        HOURS_4("14400000", "4 Hours"),
+        HOURS_1("3600000", "1 Hour"),
+        MINUTES_30("1800000", "30 Minutes"),
+        NEVER("", "Never");
 
         private final String value;
-        ClearTime(String value) {
+        private final String alias;
+        ClearTime(String value, String alias) {
             this.value = value;
+            this.alias = alias;
+        }
+
+        public static ClearTime getClearTimeByString(String s) {
+            for(ClearTime clearTime : ClearTime.values()) {
+                if(clearTime.value.equals(s) || clearTime.alias.equals(s)) {
+                    return clearTime;
+                }
+            }
+            return null;
         }
     }
 
@@ -53,9 +75,25 @@ public class Entry {
         JSONObject obj = new JSONObject();
         obj.put("pos", position);
         obj.put("status", status.value);
-        if(clearTime != ClearTime.DONT) obj.put("clearAfter", clearTime.value);
+        if(clearTime != ClearTime.NEVER) obj.put("clearAfter", clearTime.value);
         obj.put("text", text.substring(0, text.length() - Math.max(0, text.length() - MAX_CHAR_COUNT)));
         return obj;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public ClearTime getClearTime() {
+        return clearTime;
     }
 
     @Override

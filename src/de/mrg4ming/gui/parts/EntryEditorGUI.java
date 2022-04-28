@@ -1,10 +1,16 @@
 package de.mrg4ming.gui.parts;
 
+import de.mrg4ming.control.Entry;
+import de.mrg4ming.control.EntryManager;
+
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.util.Enumeration;
 
 public class EntryEditorGUI extends JPanel {
+
+    JLabel positionLabel;
 
     JTextField textField = new JTextField();
     JPanel statusSwitchPanel = new JPanel();
@@ -62,10 +68,51 @@ public class EntryEditorGUI extends JPanel {
 
         this.add(statusSwitchPanel, BorderLayout.NORTH);
         this.add(clearTimePanel, BorderLayout.NORTH);
+
+        positionLabel = new JLabel("Position: ");
+        this.add(positionLabel, BorderLayout.WEST);
+
+        textField.setToolTipText("Status text");
+        textField.setBorder(new TitledBorder("Status text"));
+
+        this.add(textField, BorderLayout.WEST);
     }
 
     public void loadEntry(int index) {
+        if(index < EntryManager.entries.size()) return;
 
+        updateEntryPositionText(EntryManager.entries.get(index).getPosition());
+
+        textField.setText(EntryManager.entries.get(index).getText());
+
+        //Status
+        for (Enumeration<AbstractButton> buttons = statusButtonGroup.getElements(); buttons.hasMoreElements();) {
+            AbstractButton button = buttons.nextElement();
+            button.setSelected(false);
+            if(Entry.Status.getStatusByString(button.getText()) != null) {
+                Entry.Status _buttonStatus = Entry.Status.getStatusByString(button.getText());
+                if(_buttonStatus == EntryManager.entries.get(index).getStatus()) {
+                    button.setSelected(true);
+                }
+            }
+        }
+
+        //ClearTime
+        for (Enumeration<AbstractButton> buttons = clearTimeButtonGroup.getElements(); buttons.hasMoreElements();) {
+            AbstractButton button = buttons.nextElement();
+            button.setSelected(false);
+            if(Entry.ClearTime.getClearTimeByString(button.getText()) != null) {
+                Entry.ClearTime _buttonClearTime = Entry.ClearTime.getClearTimeByString(button.getText());
+                if(_buttonClearTime == EntryManager.entries.get(index).getClearTime()) {
+                    button.setSelected(true);
+                }
+            }
+        }
+
+    }
+
+    public void updateEntryPositionText(int newPosition) {
+        positionLabel.setText("Position: " + newPosition);
     }
 
 }
