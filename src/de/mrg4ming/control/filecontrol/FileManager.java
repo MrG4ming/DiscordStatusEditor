@@ -97,7 +97,7 @@ public class FileManager {
 
         try (FileWriter writer = new FileWriter(filePath)) {
             String toWrite = JsonStringFormatter.formatJSONStr(raw.toJSONString(), 4);
-            writer.write(raw.toJSONString());
+            writer.write(toWrite);
             writer.flush();
 
         } catch (FileNotFoundException e) {
