@@ -69,20 +69,26 @@ public class MenuBarGUI extends JMenuBar {
         @Override
         public void actionPerformed(ActionEvent e) {
             System.out.println("Saving...");
+            FileManager.instance.save();
+            System.out.println("Saved!");
         }
     };
 
     ActionListener file_reloadAction = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
+            System.out.println("Reloading...");
             String _currentLoadedFilePath = FileManager.instance.getFilePath();
             loadFile(_currentLoadedFilePath);
+            System.out.println("Reloaded!");
         }
     };
 
     private void loadFile(String path) {
         //TODO: Add save popup if a file is already loaded but not saved
+        System.out.println("Loading...");
         if(FileManager.instance != null) FileManager.instance = null;
         new FileManager(path);
+        System.out.println("Loaded!");
     }
 }
