@@ -96,7 +96,7 @@ public class Entry implements Comparable<Entry> {
 
         EntryManager.instance.updateEntrySort();
 
-        FileManager.instance.save();
+        //FileManager.instance.save();
     }
 
     public int getPosition() {

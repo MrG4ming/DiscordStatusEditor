@@ -5,8 +5,10 @@ import de.mrg4ming.control.EntryManager;
 import de.mrg4ming.control.filecontrol.FileManager;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.io.File;
 
 public class MenuBarGUI extends JMenuBar {
@@ -26,6 +28,14 @@ public class MenuBarGUI extends JMenuBar {
         JMenuItem file_reloadItem = new JMenuItem("Reload");
         file_reloadItem.addActionListener(file_reloadAction);
         fileMenu.add(file_reloadItem);
+
+        KeyStroke ctrl_L = KeyStroke.getKeyStroke(KeyEvent.VK_L, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx());
+        KeyStroke ctrl_S = KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx());
+        KeyStroke ctrl_R = KeyStroke.getKeyStroke(KeyEvent.VK_R, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx());
+
+        file_loadItem.setAccelerator(ctrl_L);
+        file_saveItem.setAccelerator(ctrl_S);
+        file_reloadItem.setAccelerator(ctrl_R);
 
 
         this.add(fileMenu);
