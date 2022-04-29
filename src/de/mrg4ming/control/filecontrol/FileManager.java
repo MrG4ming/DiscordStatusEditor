@@ -2,6 +2,7 @@ package de.mrg4ming.control.filecontrol;
 
 import de.mrg4ming.control.Entry;
 import de.mrg4ming.control.EntryManager;
+import de.mrg4ming.gui.lib.JsonStringFormatter;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -95,7 +96,7 @@ public class FileManager {
         raw.put("all", all);
 
         try (FileWriter writer = new FileWriter(filePath)) {
-
+            String toWrite = JsonStringFormatter.formatJSONStr(raw.toJSONString(), 4);
             writer.write(raw.toJSONString());
             writer.flush();
 
