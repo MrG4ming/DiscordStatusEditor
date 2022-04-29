@@ -135,6 +135,16 @@ public class EntryEditorGUI extends JPanel {
 
     }
 
+    public void setActive(boolean value) {
+        //this.setEnabled(value);
+        //this.setVisible(value);
+
+        for(Component c : this.getComponents()) {
+            c.setEnabled(value);
+            c.setVisible(value);
+        }
+    }
+
     public void updateEntryPositionText(int newPosition) {
         positionLabel.setText("Position: " + newPosition);
     }

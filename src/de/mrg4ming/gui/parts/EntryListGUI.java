@@ -32,7 +32,7 @@ public class EntryListGUI extends JPanel {
         _entryNamesList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                System.out.println(e.getValueIsAdjusting());
+                //System.out.println(e.getValueIsAdjusting());
                 if(!e.getValueIsAdjusting()) {
                     int selectedIndex = _entryNamesList.getSelectedIndex();
                     if(selectedIndex >= 0) {
@@ -42,9 +42,10 @@ public class EntryListGUI extends JPanel {
                         EntryManager.instance.currentSelectedEntry = Integer.parseInt(_entryNamesList.getSelectedValue().toString().substring(Entry.ENTRY_NAME_PREFIX.length()));
 
                         Main.mainWindow.entryEditorGUI.loadEntry(EntryManager.instance.currentSelectedEntry);
+                        Main.mainWindow.entryEditorGUI.setActive(true);
 
                         System.out.println("Selected list item: " + selectedIndex + "; Selected entry: " + EntryManager.instance.currentSelectedEntry);
-                    }
+                    } else Main.mainWindow.entryEditorGUI.setActive(false);
 
                 }
             }

@@ -78,9 +78,9 @@ class MyDragListener implements DragSourceListener, DragGestureListener {
         list.setValueIsAdjusting(false);
         if (dsde.getDropSuccess()) {
             MyListDropHandler.rearrangeList(list.currentIndex, list.dropTargetIndex, list);
-            System.out.println("Succeeded");
+            System.out.println("Drop succeeded");
         } else {
-            System.out.println("Failed");
+            System.out.println("Drop failed");
         }
     }
 
@@ -135,8 +135,8 @@ class MyListDropHandler extends TransferHandler {
         list.currentIndex = selectedIndex;
         list.dropTargetIndex = dropTargetIndex;
 
-        System.out.println(dropTargetIndex + " : ");
-        System.out.println("inserted");
+        //System.out.println(dropTargetIndex);
+        //System.out.println("inserted");
         return true;
     }
 

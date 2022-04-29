@@ -31,6 +31,7 @@ public class Window extends JFrame {
 
         entryListGUI = new EntryListGUI();
         entryEditorGUI = new EntryEditorGUI();
+        entryEditorGUI.setActive(false);
 
         JSplitPane splitPane = new JSplitPane();
         splitPane.setLeftComponent(entryListGUI);
