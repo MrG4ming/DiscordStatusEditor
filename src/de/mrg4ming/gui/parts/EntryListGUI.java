@@ -2,6 +2,7 @@ package de.mrg4ming.gui.parts;
 
 import de.mrg4ming.Main;
 import de.mrg4ming.control.Entry;
+import de.mrg4ming.control.EntryManager;
 import de.mrg4ming.gui.lib.DragDropList;
 
 import javax.swing.*;
@@ -38,9 +39,11 @@ public class EntryListGUI extends JPanel {
                         if(selectedIndex > _entryNamesList.model.size()) {
                             selectedIndex = _entryNamesList.model.size();
                         }
-                        Main.mainWindow.entryEditorGUI.loadEntry(selectedIndex);
+                        EntryManager.instance.currentSelectedEntry = Integer.parseInt(_entryNamesList.getSelectedValue().toString().substring(Entry.ENTRY_NAME_PREFIX.length()));
 
-                        System.out.println("Selecting entry: " + selectedIndex);
+                        Main.mainWindow.entryEditorGUI.loadEntry(EntryManager.instance.currentSelectedEntry);
+
+                        System.out.println("Selected list item: " + selectedIndex + "; Selected entry: " + EntryManager.instance.currentSelectedEntry);
                     }
 
                 }

@@ -24,7 +24,7 @@ public class FileManager {
 
         this.filePath = path;
 
-        EntryManager.entries.clear();
+        EntryManager.instance.entries.clear();
 
         parse(filePath);
     }
@@ -64,7 +64,7 @@ public class FileManager {
                 Entry _entry = new Entry(id, pos, text, status, clearTime);
 
                 //System.out.println(_entry.toString());
-                EntryManager.entries.add(_entry);
+                EntryManager.instance.entries.add(_entry);
             }
             //Collections.sort(EntryManager.entries);
             //System.out.println(EntryManager.entries.toString());

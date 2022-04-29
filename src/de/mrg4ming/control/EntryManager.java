@@ -10,7 +10,8 @@ public final class EntryManager {
 
     public static EntryManager instance;
 
-    public static List<Entry> entries = new ArrayList<>();
+    public List<Entry> entries = new ArrayList<>();
+    public int currentSelectedEntry = 0;
 
     public EntryManager() {
         if(instance != null) return;
@@ -30,7 +31,7 @@ public final class EntryManager {
 
             //ONLY functional if list entries are strings built like this: "Entry ID"
             int _index = Integer.parseInt(Main.mainWindow.entryListGUI.entryListModel.elementAt(i).toString().substring(6));
-            EntryManager.entries.get(_index).position = i+1;
+            EntryManager.instance.entries.get(_index).position = i+1;
         }
     }
 
@@ -38,6 +39,10 @@ public final class EntryManager {
         Collections.sort(entries);
 
         distribute();
+    }
+
+    public static Entry getCurrentSelectedEntry() {
+        return instance.entries.get(instance.currentSelectedEntry);
     }
 
 }

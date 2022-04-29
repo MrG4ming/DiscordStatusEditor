@@ -6,6 +6,8 @@ import de.mrg4ming.control.EntryManager;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Enumeration;
@@ -89,6 +91,7 @@ public class EntryEditorGUI extends JPanel {
         entryInfoPanel.add(positionLabel, BorderLayout.NORTH);
 
         JButton applyButton = new JButton("Apply");
+        applyButton.addActionListener(applyButtonAction);
         entryInfoPanel.add(applyButton, BorderLayout.SOUTH);
 
         topHalf.add(switchPanels);
@@ -100,11 +103,11 @@ public class EntryEditorGUI extends JPanel {
     }
 
     public void loadEntry(int index) {
-        if(index > EntryManager.entries.size()) return;
+        if(index > EntryManager.instance.entries.size()) return;
 
-        updateEntryPositionText(EntryManager.entries.get(index).getPosition());
+        updateEntryPositionText(EntryManager.instance.entries.get(index).getPosition());
 
-        textArea.setText(EntryManager.entries.get(index).getText());
+        textArea.setText(EntryManager.instance.entries.get(index).getText());
 
         //Status
         for (Enumeration<AbstractButton> buttons = statusButtonGroup.getElements(); buttons.hasMoreElements();) {
@@ -112,7 +115,7 @@ public class EntryEditorGUI extends JPanel {
             button.setSelected(false);
             if(Entry.Status.getStatusByString(button.getText()) != null) {
                 Entry.Status _buttonStatus = Entry.Status.getStatusByString(button.getText());
-                if(_buttonStatus == EntryManager.entries.get(index).getStatus()) {
+                if(_buttonStatus == EntryManager.instance.entries.get(index).getStatus()) {
                     button.setSelected(true);
                 }
             }
@@ -124,7 +127,7 @@ public class EntryEditorGUI extends JPanel {
             button.setSelected(false);
             if(Entry.ClearTime.getClearTimeByString(button.getText()) != null) {
                 Entry.ClearTime _buttonClearTime = Entry.ClearTime.getClearTimeByString(button.getText());
-                if(_buttonClearTime == EntryManager.entries.get(index).getClearTime()) {
+                if(_buttonClearTime == EntryManager.instance.entries.get(index).getClearTime()) {
                     button.setSelected(true);
                 }
             }
@@ -182,4 +185,12 @@ public class EntryEditorGUI extends JPanel {
         }
         return Entry.ClearTime.TODAY;
     }
+
+    ActionListener applyButtonAction = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            //get current selected entry and execute saveEntry()
+            EntryManager.getCurrentSelectedEntry().saveEntry();
+        }
+    };
 }
