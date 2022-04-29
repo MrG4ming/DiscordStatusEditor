@@ -8,6 +8,7 @@ import org.json.simple.parser.ParseException;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Collections;
 
@@ -82,7 +83,27 @@ public class FileManager {
     }
 
     public void save() {
+        JSONObject raw = new JSONObject();
+        JSONObject all = new JSONObject();
+        JSONObject presets = new JSONObject();
 
+        for(Entry e : EntryManager.instance.entries) {
+            presets.put(e.getPosition(), e.getJSONData());
+        }
+
+        all.put("presets", presets);
+        raw.put("all", all);
+
+        try (FileWriter writer = new FileWriter(filePath)) {
+
+            writer.write(raw.toJSONString());
+            writer.flush();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public String getFilePath() {
