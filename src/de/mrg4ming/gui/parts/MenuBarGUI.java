@@ -27,13 +27,19 @@ public class MenuBarGUI extends JMenuBar {
         file_reloadItem.addActionListener(file_reloadAction);
         fileMenu.add(file_reloadItem);
 
+        JMenuItem file_unloadItem = new JMenuItem("Reload");
+        file_unloadItem.addActionListener(file_unloadAction);
+        fileMenu.add(file_unloadItem);
+
         KeyStroke ctrl_L = KeyStroke.getKeyStroke(KeyEvent.VK_L, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx());
         KeyStroke ctrl_S = KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx());
         KeyStroke ctrl_R = KeyStroke.getKeyStroke(KeyEvent.VK_R, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx());
+        KeyStroke ctrl_U = KeyStroke.getKeyStroke(KeyEvent.VK_U, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx());
 
         file_loadItem.setAccelerator(ctrl_L);
         file_saveItem.setAccelerator(ctrl_S);
         file_reloadItem.setAccelerator(ctrl_R);
+        file_unloadItem.setAccelerator(ctrl_U);
 
 
         this.add(fileMenu);
@@ -82,13 +88,20 @@ public class MenuBarGUI extends JMenuBar {
         }
     };
 
+    ActionListener file_unloadAction = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            FileManager.instance.unloadFile();
+        }
+    };
+
     private void loadFile(String path) {
         //TODO: Add save popup if a file is already loaded but not saved
         System.out.println("Loading...");
-        if(!FileManager.instance.fileIsLoaded()) {
+        if(FileManager.instance.fileIsLoaded()) {
             FileManager.instance.unloadFile();
-            FileManager.instance.loadFile(path);
         }
+        FileManager.instance.loadFile(path);
         System.out.println("Loaded!");
     }
 }
