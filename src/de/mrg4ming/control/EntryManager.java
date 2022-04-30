@@ -24,7 +24,8 @@ public final class EntryManager {
             entryNames.add(Entry.ENTRY_NAME_PREFIX + entry.position);
         }
 
-        Main.mainWindow.entryListGUI.entryListModel.clear();
+        Main.mainWindow.entryListGUI.clearEntries();
+
         for(String s : entryNames) {
             Main.mainWindow.entryListGUI.addEntry(s);
         }
@@ -52,14 +53,14 @@ public final class EntryManager {
         for(int i = 0; i < Main.mainWindow.entryListGUI.entryListModel.size(); i++) {
 
             //ONLY functional if list entries are strings built like this: "Entry " + id
-            int _index = Integer.parseInt(Main.mainWindow.entryListGUI.entryListModel.elementAt(i).toString().substring(Entry.ENTRY_NAME_PREFIX.length()));
+            int _index = Integer.parseInt(Main.mainWindow.entryListGUI.entries.get(i).toString().substring(Entry.ENTRY_NAME_PREFIX.length()));
             EntryManager.instance.entries.get(_index).position = i+1;
         }
     }
 
     public void sortListAndApplyDistribute() {
         Collections.sort(entries);
-
+        System.out.println(entries);
         distribute();
     }
 

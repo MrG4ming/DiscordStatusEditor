@@ -13,12 +13,11 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Enumeration;
 import java.util.List;
 
 public class EntryListGUI extends JPanel implements IRearrangeListListener {
 
-    ArrayList<String> entries;
+    public ArrayList<String> entries;
     public DefaultListModel entryListModel;
 
     public EntryListGUI() {
@@ -62,8 +61,8 @@ public class EntryListGUI extends JPanel implements IRearrangeListListener {
 
     public void onRearrangeList() {
 
-        for(int i = 0; i < entryListModel.size(); i++) {
-            int index = Integer.parseInt(entryListModel.get(i).toString().substring(Entry.ENTRY_NAME_PREFIX.length()));
+        for(int i = 0; i < entries.size(); i++) {
+            int index = Integer.parseInt(entries.get(i).substring(Entry.ENTRY_NAME_PREFIX.length()));
 
             EntryManager.instance.entries.get(index).setPosition(i + 1);
         }
@@ -91,8 +90,14 @@ public class EntryListGUI extends JPanel implements IRearrangeListListener {
         return false;
     }
 
+    public void clearEntries() {
+        this.entries.clear();
+        this.entryListModel.clear();
+    }
+
     public void updateEntries(List<String> entries) {
-        entryListModel.removeAllElements();
+        //entryListModel.removeAllElements();
+        entryListModel.clear();
 
         ButtonGroup _buttonGroup = new ButtonGroup();
 
@@ -102,14 +107,5 @@ public class EntryListGUI extends JPanel implements IRearrangeListListener {
             JRadioButton _valueButton = new JRadioButton(entries.get(i));
             _buttonGroup.add(_valueButton);
         }
-    }
-
-    public void sortEntries() {
-        Collections.sort(this.entries);
-    }
-
-    private void sortAndUpdateEntries() {
-        Collections.sort(this.entries);
-        updateEntries(this.entries);
     }
 }

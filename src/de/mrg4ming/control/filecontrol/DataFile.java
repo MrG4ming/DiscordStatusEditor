@@ -1,5 +1,6 @@
 package de.mrg4ming.control.filecontrol;
 
+import de.mrg4ming.Main;
 import de.mrg4ming.control.Entry;
 import de.mrg4ming.control.EntryManager;
 import de.mrg4ming.gui.lib.JsonStringFormatter;
@@ -19,6 +20,7 @@ public class DataFile {
         this.filePath = path;
 
         EntryManager.instance.entries.clear();
+        Main.mainWindow.entryListGUI.entryListModel.clear();
 
         parse(filePath);
     }

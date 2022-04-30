@@ -3,6 +3,8 @@ package de.mrg4ming.control;
 import de.mrg4ming.Main;
 import org.json.simple.JSONObject;
 
+import java.util.Objects;
+
 public class Entry implements Comparable<Entry> {
 
     public static final String ENTRY_NAME_PREFIX = "Entry ";
@@ -130,5 +132,18 @@ public class Entry implements Comparable<Entry> {
     @Override
     public int compareTo(Entry o) {
         return this.getPosition() - o.getPosition();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Entry entry = (Entry) o;
+        return position == entry.position && charCount == entry.charCount && Objects.equals(text, entry.text) && status == entry.status && clearTime == entry.clearTime;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(position, charCount, text, status, clearTime);
     }
 }

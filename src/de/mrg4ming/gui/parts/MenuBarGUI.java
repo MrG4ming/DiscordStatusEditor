@@ -82,9 +82,12 @@ public class MenuBarGUI extends JMenuBar {
         @Override
         public void actionPerformed(ActionEvent e) {
             System.out.println("Reloading...");
-            String _currentLoadedFilePath = FileManager.instance.dataFile.getFilePath();
-            loadFile(_currentLoadedFilePath);
-            System.out.println("Reloaded!");
+            if(FileManager.instance.fileIsLoaded()) {
+                String _currentLoadedFilePath = FileManager.instance.dataFile.getFilePath();
+                loadFile(_currentLoadedFilePath);
+                System.out.println("Reloaded!");
+            }
+            System.out.println("Reloading canceled: no file was loaded");
         }
     };
 
