@@ -91,7 +91,9 @@ public class MenuBarGUI extends JMenuBar {
     ActionListener file_unloadAction = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
+            System.out.println("Unloading...");
             FileManager.instance.unloadFile();
+            System.out.println("Unloaded!");
         }
     };
 
