@@ -1,6 +1,7 @@
 package de.mrg4ming;
 
 import de.mrg4ming.control.EntryManager;
+import de.mrg4ming.control.filecontrol.FileManager;
 import de.mrg4ming.gui.Window;
 
 public class Main {
@@ -9,6 +10,7 @@ public class Main {
 
     public static void main(String[] args) {
         EntryManager entryManager = new EntryManager();
+        FileManager fileManager = new FileManager();
 
         mainWindow = new Window("Custom Discord status editor");
 
