@@ -1,7 +1,6 @@
 package de.mrg4ming;
 
 import de.mrg4ming.control.EntryManager;
-import de.mrg4ming.control.filecontrol.FileManager;
 import de.mrg4ming.gui.Window;
 
 public class Main {
@@ -20,7 +19,7 @@ public class Main {
         mainWindow.entryListGUI.addEntry("Entry 5");
         mainWindow.entryListGUI.sortEntries();*/
 
-        //new FileManager(System.getProperty("user.home") + System.getProperty("file.separator") + "Desktop" + System.getProperty("file.separator") + "CustomStatusPresets.config.json");
+        //new DataFile(System.getProperty("user.home") + System.getProperty("file.separator") + "Desktop" + System.getProperty("file.separator") + "CustomStatusPresets.config.json");
 
     }
 

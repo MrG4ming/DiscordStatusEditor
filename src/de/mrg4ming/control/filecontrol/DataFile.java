@@ -11,16 +11,15 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Collections;
 
-public class FileManager {
+public class DataFile {
 
-    public static FileManager instance;
+    public static DataFile instance;
 
     String filePath;
     JSONParser parser;
 
-    public FileManager(String path) {
+    public DataFile(String path) {
         if(instance != null) return;
         instance = this;
 

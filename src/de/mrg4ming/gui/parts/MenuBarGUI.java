@@ -1,15 +1,13 @@
 package de.mrg4ming.gui.parts;
 
 import de.mrg4ming.Main;
-import de.mrg4ming.control.EntryManager;
-import de.mrg4ming.control.filecontrol.FileManager;
+import de.mrg4ming.control.filecontrol.DataFile;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.io.File;
 
 public class MenuBarGUI extends JMenuBar {
 
@@ -69,7 +67,7 @@ public class MenuBarGUI extends JMenuBar {
         @Override
         public void actionPerformed(ActionEvent e) {
             System.out.println("Saving...");
-            FileManager.instance.save();
+            DataFile.instance.save();
             System.out.println("Saved!");
         }
     };
@@ -78,7 +76,7 @@ public class MenuBarGUI extends JMenuBar {
         @Override
         public void actionPerformed(ActionEvent e) {
             System.out.println("Reloading...");
-            String _currentLoadedFilePath = FileManager.instance.getFilePath();
+            String _currentLoadedFilePath = DataFile.instance.getFilePath();
             loadFile(_currentLoadedFilePath);
             System.out.println("Reloaded!");
         }
@@ -87,8 +85,8 @@ public class MenuBarGUI extends JMenuBar {
     private void loadFile(String path) {
         //TODO: Add save popup if a file is already loaded but not saved
         System.out.println("Loading...");
-        if(FileManager.instance != null) FileManager.instance = null;
-        new FileManager(path);
+        if(DataFile.instance != null) DataFile.instance = null;
+        new DataFile(path);
         System.out.println("Loaded!");
     }
 }

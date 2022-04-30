@@ -1,12 +1,7 @@
 package de.mrg4ming.control;
 
 import de.mrg4ming.Main;
-import de.mrg4ming.control.filecontrol.FileManager;
 import org.json.simple.JSONObject;
-
-import java.io.File;
-import java.util.Arrays;
-import java.util.Enumeration;
 
 public class Entry implements Comparable<Entry> {
 
@@ -96,7 +91,7 @@ public class Entry implements Comparable<Entry> {
 
         EntryManager.instance.updateEntrySort();
 
-        //FileManager.instance.save();
+        //DataFile.instance.save();
     }
 
     public void setPosition(int position) {
