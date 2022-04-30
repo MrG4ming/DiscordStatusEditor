@@ -50,11 +50,11 @@ public final class EntryManager {
     }
 
     public void updateEntrySort() {
-        for(int i = 0; i < Main.mainWindow.entryListGUI.entryListModel.size(); i++) {
+        for(int i = 0; i < Main.mainWindow.entryListGUI.entries.size(); i++) {
 
             //ONLY functional if list entries are strings built like this: "Entry " + id
-            int _index = Integer.parseInt(Main.mainWindow.entryListGUI.entries.get(i).toString().substring(Entry.ENTRY_NAME_PREFIX.length()));
-            EntryManager.instance.entries.get(_index).position = i+1;
+            int _index = Integer.parseInt(Main.mainWindow.entryListGUI.entries.get(i).substring(Entry.ENTRY_NAME_PREFIX.length()));
+            EntryManager.instance.entries.get(_index - 1).position = i + 1;
         }
     }
 
