@@ -27,7 +27,7 @@ public class MenuBarGUI extends JMenuBar {
         file_reloadItem.addActionListener(file_reloadAction);
         fileMenu.add(file_reloadItem);
 
-        JMenuItem file_unloadItem = new JMenuItem("Reload");
+        JMenuItem file_unloadItem = new JMenuItem("Unload");
         file_unloadItem.addActionListener(file_unloadAction);
         fileMenu.add(file_unloadItem);
 
