@@ -1,5 +1,6 @@
 package de.mrg4ming.gui.parts;
 
+import de.mrg4ming.Main;
 import de.mrg4ming.control.Entry;
 import de.mrg4ming.control.EntryManager;
 
@@ -90,9 +91,23 @@ public class EntryEditorGUI extends JPanel {
         entryInfoPanel.setBorder(new TitledBorder("Entry info"));
         entryInfoPanel.add(positionLabel, BorderLayout.NORTH);
 
+        JPanel southPanel = new JPanel(new GridLayout(1, 2));
+
         JButton applyButton = new JButton("Apply");
         applyButton.addActionListener(applyButtonAction);
-        entryInfoPanel.add(applyButton, BorderLayout.SOUTH);
+
+        JButton removeEntry = new JButton("Remove Entry");
+        removeEntry.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                EntryManager.instance.removeEntry(EntryManager.getCurrentSelectedEntry());
+            }
+        });
+
+        southPanel.add(removeEntry);
+        southPanel.add(applyButton);
+
+        entryInfoPanel.add(southPanel, BorderLayout.SOUTH);
 
         topHalf.add(switchPanels);
         topHalf.add(textInputPanel);

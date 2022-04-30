@@ -21,16 +21,37 @@ public final class EntryManager {
     public void distribute() {
         List<String> entryNames = new ArrayList<>();
         for(Entry entry : entries) {
-            entryNames.add("Entry " + entry.position);
+            entryNames.add(Entry.ENTRY_NAME_PREFIX + entry.position);
         }
-        Main.mainWindow.entryListGUI.updateEntries(entryNames);
+
+        for(String s : entryNames) {
+            Main.mainWindow.entryListGUI.addEntry(s);
+        }
+        //Main.mainWindow.entryListGUI.updateEntries(entryNames);
+    }
+
+    public void addEmptyEntry() {
+        Entry e = new Entry(entries.size() + 1, entries.size() + 1, "", Entry.Status.INVISIBLE, Entry.ClearTime.TODAY);
+
+        this.entries.add(e);
+
+        Main.mainWindow.entryListGUI.addEntry(Entry.ENTRY_NAME_PREFIX + e.position);
+    }
+
+    public boolean removeEntry(Entry e) {
+        if(entries.contains(e)) {
+            entries.remove(e);
+            Main.mainWindow.entryListGUI.removeEntry(Entry.ENTRY_NAME_PREFIX + e.position);
+            return true;
+        }
+        return false;
     }
 
     public void updateEntrySort() {
         for(int i = 0; i < Main.mainWindow.entryListGUI.entryListModel.size(); i++) {
 
-            //ONLY functional if list entries are strings built like this: "Entry ID"
-            int _index = Integer.parseInt(Main.mainWindow.entryListGUI.entryListModel.elementAt(i).toString().substring(6));
+            //ONLY functional if list entries are strings built like this: "Entry " + id
+            int _index = Integer.parseInt(Main.mainWindow.entryListGUI.entryListModel.elementAt(i).toString().substring(Entry.ENTRY_NAME_PREFIX.length()));
             EntryManager.instance.entries.get(_index).position = i+1;
         }
     }

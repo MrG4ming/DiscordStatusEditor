@@ -3,6 +3,7 @@ package de.mrg4ming.gui.parts;
 import de.mrg4ming.Main;
 import de.mrg4ming.control.Entry;
 import de.mrg4ming.control.EntryManager;
+import de.mrg4ming.control.utility.IRearrangeListListener;
 import de.mrg4ming.gui.lib.DragDropList;
 
 import javax.swing.*;
@@ -12,9 +13,10 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Enumeration;
 import java.util.List;
 
-public class EntryListGUI extends JPanel {
+public class EntryListGUI extends JPanel implements IRearrangeListListener {
 
     ArrayList<String> entries;
     public DefaultListModel entryListModel;
@@ -51,10 +53,22 @@ public class EntryListGUI extends JPanel {
             }
         });
 
+        _entryNamesList.onRearrangeList.add(this);
 
         JScrollPane _scrollPane = new JScrollPane(_entryNamesList);
 
         this.add(_scrollPane, BorderLayout.CENTER);
+    }
+
+    public void onRearrangeList() {
+
+        for(int i = 0; i < entryListModel.size(); i++) {
+            int index = Integer.parseInt(entryListModel.get(i).toString().substring(Entry.ENTRY_NAME_PREFIX.length()));
+
+            EntryManager.instance.entries.get(index).setPosition(i + 1);
+        }
+
+        //EntryManager.instance.sortListAndApplyDistribute();
     }
 
     public boolean addEntry(String _entry) {

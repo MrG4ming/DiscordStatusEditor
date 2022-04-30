@@ -99,6 +99,11 @@ public class Entry implements Comparable<Entry> {
         //FileManager.instance.save();
     }
 
+    public void setPosition(int position) {
+        this.position = position;
+        this.id = position;
+    }
+
     public int getPosition() {
         return position;
     }

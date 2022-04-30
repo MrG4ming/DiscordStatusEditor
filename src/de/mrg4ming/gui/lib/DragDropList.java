@@ -1,5 +1,7 @@
 package de.mrg4ming.gui.lib;
 
+import de.mrg4ming.control.utility.IRearrangeListListener;
+
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
@@ -12,7 +14,10 @@ import java.awt.dnd.DragSourceDragEvent;
 import java.awt.dnd.DragSourceDropEvent;
 import java.awt.dnd.DragSourceEvent;
 import java.awt.dnd.DragSourceListener;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.DefaultListModel;
 import javax.swing.DropMode;
@@ -24,6 +29,8 @@ public class DragDropList extends JList {
 
     public int dropTargetIndex = 0;
     public int currentIndex = 0;
+
+    public List<IRearrangeListListener> onRearrangeList = new ArrayList<>();
 
     public DragDropList() {
         super(new DefaultListModel());
@@ -158,5 +165,19 @@ class MyListDropHandler extends TransferHandler {
         for(int i = 0; i < _contents.size(); i++) {
             list.model.add(i, _contents.get(i));
         }
+
+        for(IRearrangeListListener l : list.onRearrangeList) {
+            try {
+                Object o = l.getClass().getDeclaredMethod("onRearrangeList", null).invoke(l, null);
+                System.out.println(o);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                //e.printStackTrace();
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 }

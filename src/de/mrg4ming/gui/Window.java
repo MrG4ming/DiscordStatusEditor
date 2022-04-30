@@ -1,11 +1,14 @@
 package de.mrg4ming.gui;
 
+import de.mrg4ming.control.EntryManager;
 import de.mrg4ming.gui.parts.EntryEditorGUI;
 import de.mrg4ming.gui.parts.EntryListGUI;
 import de.mrg4ming.gui.parts.MenuBarGUI;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Window extends JFrame {
 
@@ -33,9 +36,26 @@ public class Window extends JFrame {
         entryEditorGUI = new EntryEditorGUI();
         entryEditorGUI.setActive(false);
 
+        JPanel leftPanel = new JPanel(new BorderLayout());
+        JPanel rightPanel = new JPanel(new BorderLayout());
+
+        leftPanel.add(entryListGUI, BorderLayout.CENTER);
+
+        JButton addEntryBtn = new JButton("Add Entry");
+        addEntryBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                EntryManager.instance.addEmptyEntry();
+            }
+        });
+        leftPanel.add(addEntryBtn, BorderLayout.SOUTH);
+
+
+        rightPanel.add(entryEditorGUI, BorderLayout.CENTER);
+
         JSplitPane splitPane = new JSplitPane();
-        splitPane.setLeftComponent(entryListGUI);
-        splitPane.setRightComponent(entryEditorGUI);
+        splitPane.setLeftComponent(leftPanel);
+        splitPane.setRightComponent(rightPanel);
 
         mainPanel.add(splitPane);
 
