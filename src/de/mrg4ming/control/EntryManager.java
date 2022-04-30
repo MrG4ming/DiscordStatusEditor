@@ -24,6 +24,7 @@ public final class EntryManager {
             entryNames.add(Entry.ENTRY_NAME_PREFIX + entry.position);
         }
 
+        Main.mainWindow.entryListGUI.entryListModel.clear();
         for(String s : entryNames) {
             Main.mainWindow.entryListGUI.addEntry(s);
         }
